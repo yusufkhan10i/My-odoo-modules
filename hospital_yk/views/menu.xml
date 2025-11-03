@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <menuitem id="menu_hospital_root" name="HMS"/>
+  <menuitem id="menu_front_desk" name="Front Desk" parent="menu_hospital_root" sequence="10" />
+  <menuitem id="menu_appointments" name="Appointments" parent="menu_hospital_root" sequence="20" />
+  <menuitem id="menu_billing" name="Billing" parent="menu_hospital_root" sequence="30" />
+  <menuitem id="menu_employees" name="Employees" parent="menu_hospital_root" sequence="40" />
+ <menuitem id="menu_configuration" name="Configuration" parent="menu_hospital_root" />
+
+  <!-- Front Desk Submenus -->
+  <menuitem id="menu_patients" name="Patients" parent="menu_front_desk" action="action_hospital_patient" />
+  <menuitem id="menu_patients_report" name="Patients Report" parent="menu_front_desk" action="action_report_patient" />
+  <menuitem id="menu_patients_card" name="Patients Card" parent="menu_front_desk" action="action_hospital_patient_card" />
+  <menuitem id="menu_patients_readonly" name="View Patients" parent="menu_front_desk" action="action_hospital_readonly_patient" />
+
+  <!-- Appointments Submenus -->
+  <menuitem id="menu_appointment" name="Appointment" parent="menu_appointments" action="action_hospital_appointment" sequence="10" />
+  <menuitem id="menu_appointment_line" name="Appointment Line" parent="menu_appointments" action="action_hospital_appointment_line" sequence="20" />
+  <menuitem id="menu_cancel_appointment" name="Cancellation" parent="menu_appointments" action="action_cancel_appointment" sequence="30" />
+
+  <!-- Billing Submenus -->
+  <menuitem id="menu_hms_invoice" name="Invoices" action="account.action_move_out_invoice" parent="menu_billing" sequence="10" />
+  <menuitem id="menu_hms_payment" name="Payments" action="account.action_account_payments" parent="menu_billing" sequence="20" />
+
+  <!-- Employees Submenus -->
+  <menuitem id="menu_hms_doctors" name="Doctors" action="hr.open_view_employee_list_my" parent="menu_employees" sequence="10" />
+  <menuitem id="menu_hms_nurses" name="Nurses" action="hr.open_view_employee_list_my" parent="menu_employees" sequence="20" />
+  <menuitem id="menu_hms_receptionists" name="Receptionists" action="hr.open_view_employee_list_my" parent="menu_employees" sequence="30" />
+  <menuitem id="menu_hms_admin_staff" name="Admin Staff" action="hr.open_view_employee_list_my" parent="menu_employees" sequence="40" />
+
+  <!-- Configuration -->
+   <menuitem id="menu_playground" name="Playground" action="action_playground" parent="menu_configuration" sequence="10" />
+  <menuitem id="menu_patient_tags" name="Patient Tags" parent="menu_configuration" action="action_patient_tag" />
+</odoo>

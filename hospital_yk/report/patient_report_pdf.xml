@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Report Action -->
+    <record id="action_report_patient" model="ir.actions.report">
+        <field name="name">Patient Report</field>
+        <field name="model">hospital.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hospital_yk.patient_report_template</field>
+        <field name="report_file">hospital_yk.patient_report_template</field>
+        <field name="print_report_name">'Patient Report - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_hospital_patient"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- QWeb Template -->
+    <template id="patient_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page" style="font-family: 'Arial';">
+
+                    <!-- HEADER -->
+                    <div style="text-align:center; border-bottom:2px solid #000; padding-bottom:5px; margin-bottom:15px;">
+                        <img t-att-src="'data:image/png;base64,%s' % (o.company.logo or '')"
+                             alt="Hospital Logo" height="70" style="margin-bottom:5px;"/><br/>
+                        <strong style="font-size:20px;"><t t-esc="o.company.name"/></strong><br/>
+                        <span style="font-size:13px;">
+                            <t t-esc="o.company.phone"/> | <t t-esc="o.company.email"/> | <t t-esc="o.company.city"/>
+                        </span>
+                    </div>
+
+                    <!-- TITLE -->
+                    <h2 style="text-align:center; margin-bottom:20px; text-decoration:underline;">
+                        Patient Information Report
+                    </h2>
+
+                    <!-- DETAILS SECTION -->
+                    <table style="width:100%; font-size:13px; border-collapse:collapse;">
+                        <tbody>
+                            <tr><td style="width:30%; font-weight:bold; padding:5px;">Name:</td><td style="padding:5px;"><t t-esc="o.name"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Date of Birth:</td><td style="padding:5px;"><t t-esc="o.date_of_birth"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Age:</td><td style="padding:5px;"><t t-esc="o.age"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Gender:</td><td style="padding:5px;"><t t-esc="o.gender"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Mobile:</td><td style="padding:5px;"><t t-esc="o.mobile"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Email:</td><td style="padding:5px;"><t t-esc="o.email"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Address:</td><td style="padding:5px;"><t t-esc="o.address"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Guardian Relation:</td><td style="padding:5px;"><t t-esc="o.guardian"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Guardian Name:</td><td style="padding:5px;"><t t-esc="o.guardian_name"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Guardian Mobile:</td><td style="padding:5px;"><t t-esc="o.guardian_mobile"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Doctor:</td><td style="padding:5px;"><t t-esc="o.doctor_id.name"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Medical History:</td><td style="padding:5px;"><t t-esc="o.medical_history"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Prescription:</td><td style="padding:5px;"><t t-esc="o.prescription_ids"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Dosage:</td><td style="padding:5px;"><t t-esc="o.dosage"/></td></tr>
+                            <tr><td style="font-weight:bold; padding:5px;">Instructions:</td><td style="padding:5px;"><t t-esc="o.instructions"/></td></tr>
+                        </tbody>
+                    </table>
+
+                    <!-- OPTIONAL IMAGE -->
+                    <t t-if="o.image">
+                        <div style="text-align:center; margin-top:20px;">
+                            <img t-att-src="'data:image/png;base64,%s' % (o.image or '')" width="120" height="120" style="border:1px solid #ccc; border-radius:6px;"/>
+                            <p style="font-size:11px; margin-top:5px;">Patient Photo</p>
+                        </div>
+                    </t>
+
+                    <!-- SIGNATURE LINE -->
+                    <div style="margin-top:40px; text-align:right; font-size:13px;">
+                        <p><strong>Doctors Signature:</strong> ___________________________</p>
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div style="position:relative; bottom:0; left:0; right:0; text-align:center;
+                                border-top:2px solid #000; margin-top:40px; padding-top:5px; font-size:11px;">
+                        <p>
+                            Generated on <t t-esc="time.strftime('%d-%m-%Y')"/> by
+                            <t t-esc="user.name"/> | Hospital Management System
+                        </p>
+                        <p>Page <span class="page"/> of <span class="topage"/></p>
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </template>
+        <!-- Report Action -->
+    <record id="action_hospital_patient_card" model="ir.actions.report">
+        <field name="name">Patient Card</field>
+        <field name="model">hospital.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hospital_yk.patient_card</field>
+        <field name="report_file">hospital_yk.patient_card</field>
+        <field name="print_report_name">'Patient Card - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_hospital_patient"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!-- Report Action -->
+    <record id="action_patient_card" model="ir.actions.report">
+        <field name="name">Patient Card</field>
+        <field name="model">hospital.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hospital_yk.patient_card_template</field>
+        <field name="report_file">hospital_yk.patient_card_template</field>
+        <field name="print_report_name">'Patient Card - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_hospital_patient"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- QWeb Template -->
+    <template id="patient_card_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page" style="font-family: Arial, sans-serif; font-size:13px;">
+
+                    <!-- HEADER -->
+                    <div style="text-align:center; border-bottom:2px solid #000; margin-bottom:15px; padding-bottom:5px;">
+                        <img t-att-src="'data:image/png;base64,%s' % (o.company.logo or '')"
+                             alt="Hospital Logo" height="60" style="margin-bottom:5px;"/><br/>
+                        <strong style="font-size:18px;"><t t-esc="o.company.name"/></strong><br/>
+                        <span style="font-size:12px;">
+                            <t t-esc="o.company.phone"/> | <t t-esc="o.company.email"/> | <t t-esc="o.company.city"/>
+                        </span>
+                    </div>
+
+                    <!-- CARD TITLE -->
+                    <h3 style="text-align:center; text-decoration:underline; margin-bottom:15px;">
+                        PATIENT CARD
+                    </h3>
+
+                    <!-- CARD BODY TABLE -->
+                    <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                        <tbody>
+                            <tr>
+                                <td style="width:35%; font-weight:bold; padding:6px; border:1px solid #ddd;">Patient Name</td>
+                                <td style="padding:6px; border:1px solid #ddd;"><t t-esc="o.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold; padding:6px; border:1px solid #ddd;">Date of Birth</td>
+                                <td style="padding:6px; border:1px solid #ddd;"><t t-esc="o.date_of_birth"/></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold; padding:6px; border:1px solid #ddd;">Age</td>
+                                <td style="padding:6px; border:1px solid #ddd;"><t t-esc="o.age"/></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold; padding:6px; border:1px solid #ddd;">Gender</td>
+                                <td style="padding:6px; border:1px solid #ddd;"><t t-esc="o.gender"/></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold; padding:6px; border:1px solid #ddd;">Doctor Assigned</td>
+                                <td style="padding:6px; border:1px solid #ddd;"><t t-esc="o.doctor_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold; padding:6px; border:1px solid #ddd;">Mobile</td>
+                                <td style="padding:6px; border:1px solid #ddd;"><t t-esc="o.mobile"/></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold; padding:6px; border:1px solid #ddd;">Email</td>
+                                <td style="padding:6px; border:1px solid #ddd;"><t t-esc="o.email"/></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold; padding:6px; border:1px solid #ddd;">Address</td>
+                                <td style="padding:6px; border:1px solid #ddd;"><t t-esc="o.address"/></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold; padding:6px; border:1px solid #ddd;">Guardian</td>
+                                <td style="padding:6px; border:1px solid #ddd;">
+                                    <t t-esc="o.guardian_name"/> (<t t-esc="o.guardian"/>)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold; padding:6px; border:1px solid #ddd;">Guardian Mobile</td>
+                                <td style="padding:6px; border:1px solid #ddd;"><t t-esc="o.guardian_mobile"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- PATIENT IMAGE -->
+                    <t t-if="o.image">
+                        <div style="text-align:center; margin-top:10px;">
+                            <img t-att-src="'data:image/png;base64,%s' % (o.image or '')"
+                                 width="100" height="100" style="border:1px solid #ccc; border-radius:5px;"/>
+                            <p style="font-size:11px; margin-top:5px;">Patient Photo</p>
+                        </div>
+                    </t>
+
+                    <!-- FOOTER -->
+                    <div style="border-top:2px solid #000; margin-top:25px; padding-top:5px;
+                                text-align:center; font-size:11px;">
+                        <p>
+                            Generated on <t t-esc="time.strftime('%d-%m-%Y')"/> by
+                            <t t-esc="user.name"/> | Hospital Management System
+                        </p>
+                        <p>Page <span class="page"/> of <span class="topage"/></p>
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

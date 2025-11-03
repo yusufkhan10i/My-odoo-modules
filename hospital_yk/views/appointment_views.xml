@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_hospital_appointment_list" model="ir.ui.view">
+        <field name="name">hospital.appointment.list</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <list string="Appointments" multi_edit="1">
+                <field name="reference"/>
+                <field name="gender" optional="show"/>
+                <field name="appointment_date"/>
+                <field name="activity_ids" widget="list_activity"/>
+                <field name="state"/>
+                <field name="notes" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_hospital_appointment_form" model="ir.ui.view">
+        <field name="name">hospital.appointment.form</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <form string="Appointments">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="action_confirm" type="object" string="Confirm"
+                            modifiers="{'visible': [['state', '=', 'draft']]}" class="btn-primary"/>
+                    <button name="action_done" type="object" string="Done"
+                            modifiers="{'visible': [['state', '=', 'confirmed']]}" class="btn-success"/>
+                    <button name="action_ongoing" type="object" string="Set to Ongoing"
+                            modifiers="{'visible': [['state', '=', 'confirmed']]}" class="btn-info"/>
+                    <button name="%(hospital_yk.action_cancel_appointment)d" type="action" string="Cancel"
+                            context="{'default_reason': 'test', 'hide_appointment': 1}" modifiers="{'visible': [['state', 'in', ['draft', 'confirmed']]]}" class="btn-danger"/>
+                    <button name="action_set_draft" type="object" string="Set to Draft"
+                            modifiers="{'visible': [['state', 'in', ['cancelled', 'done']]]}" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class ="oe_title">
+                        <h1>
+                            <field name="priority" widget="priority" class="mr-3"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="reference" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="appointment_date"/>
+                        </group>
+                        <group>
+                            <field name="gender"/>
+                            <field name="notes"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter>
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </chatter>
+                <notebook>
+                    <page string="Prescription">
+                        <field name="appointment_line_ids">
+                            <list string="Appointment Lines" editable="top">
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                <field name="price"/>
+                                <field name="total" readonly="1"/>
+                            </list>
+                            <form string="Medicine">
+                                <sheet>
+                                    <group>
+                                        <field name="product_id"/>
+                                        <field name="quantity"/>
+                                        <field name="price"/>
+                                        <field name="total" readonly="1"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </page>
+                    <page string="Other Details">
+                        <field name="other_details" placeholder="Enter your details"  options="{'collaborative': true, 'resizable': true, 'codeview':true}"/>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hospital_appointment" model="ir.actions.act_window">
+        <field name="name">Appointment</field>
+        <field name="res_model">hospital.appointment</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocentent_smiling_face">
+                Create a new appointment
+            </p>
+        </field>
+    </record>
+</odoo>

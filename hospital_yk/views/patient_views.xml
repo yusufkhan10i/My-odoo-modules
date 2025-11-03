@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_hospital_patient_list" model="ir.ui.view">
+        <field name="name">hospital.patient.list</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <list string="Patients" export_xlsx="0">
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="age"/>
+                <field name="appointment_count" sum="Total Appointment"/>
+                <field name="gender" optional="show"/>
+                <field name="doctor_id" widget="many2one_avatar_user"/>
+                <field name="tag_ids" optional="hide"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_hospital_patient_form" model="ir.ui.view">
+        <field name="name">hospital.patient.form</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patients">
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <group>
+                         <field name="reference"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="date_of_birth"/>
+                            <field name="age" readonly="1"/>
+                            <field name="appointment_count"/>
+                            <field name="doctor_id" widget="many2one_avatar_user"/>
+                            <field name="guardian"
+                                   modifiers="{'invisible': [('age', '>', 18), ('gender', '=', 'male')]}"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="guardian_name"/>
+                            <field name="address"/>
+                        </group>
+                        <group>
+                            <field name="gender"/>
+                            <field name="tag_ids" widget="many2many_tags"/>
+                            <field name="mobile" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="guardian_mobile"/>
+                        </group>
+                    </group>
+                    <chatter>
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="message_ids"/>
+                    </chatter>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_hospital_patient_search" model="ir.ui.view">
+        <field name="name">hospital.patient.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search string="Patients">
+                <field name="name"/>
+                <field name="date_of_birth"/>
+                <field name="gender"/>
+                <field name="tag_ids"/>
+                <field name="reference"/>
+                <separator/>
+                <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
+                <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>
+                <separator/>
+                <filter name="filter_archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_gender" string="Gender" context="{'group_by': 'gender'}"/>
+                </group>
+                <searchpanel>
+                    <field name="gender" icon="fa-users" select="multi" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_hospital_appointment_activity" model="ir.ui.view">
+        <field name="name">hospital.appointment.activity</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <activity string="Appointments">
+                <field name="patient_id"/>
+                <templates>
+                    <t t-name="activity-box">
+                        <div class="o_activity_patient_box d-flex align-items-center">
+                            <img t-att-src="activity_image('hospital.patient', 'image', record.patient_id.raw_value)"
+                                 t-att-title="record.patient_id.display_name"
+                                 class="o_activity_patient_image me-3 rounded-circle"
+                                 style="width: 48px; height: 48px; object-fit: cover;"/>
+                            <div class="o_activity_details">
+                                <strong>
+                                    <t t-esc="record.patient_id.display_name"/>
+                                </strong>
+                                <br/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+
+    <record id="action_hospital_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">list,form,search,activity</field>
+        <field name="help" type="html">
+            <p class="oe_view_no_content_smiling_face">
+                Create a new patient
+            </p>
+        </field>
+    </record>
+</odoo>

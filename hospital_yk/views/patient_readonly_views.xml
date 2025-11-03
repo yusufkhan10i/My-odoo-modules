@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_hospital_patient_readonly_list" model="ir.ui.view">
+        <field name="name">hospital.patient.readonly.list</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <list string="Patients">
+                <field name="name"/>
+                <field name="date_of_birth"/>
+                <field name="gender"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_hospital_patient_readonly_form" model="ir.ui.view">
+        <field name="name">hospital.patient.readonly.form</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patients">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date_of_birth"/>
+                        </group>
+                        <group>
+                            <field name="gender"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter>
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </chatter>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hospital_readonly_patient" model="ir.actions.act_window">
+        <field name="name">View Patients</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocentent_smiling_face">
+                Create a new patient
+            </p>
+        </field>
+    </record>
+</odoo>

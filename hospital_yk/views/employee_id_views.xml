@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_hr_employee_form_inherit_hms" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.hms</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='coach_id']" position="after">
+                <group>
+                    <field name="employee_ids" placeholder="Select Employees..." widget="many2one_tags"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
